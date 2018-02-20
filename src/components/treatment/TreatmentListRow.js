@@ -4,10 +4,11 @@ import {Link} from 'react-router';
 const TreatmentListRow = ({treatment}) => {
   return (
     <tr>
-      <td><a href={treatment.watchHref} target="_blank">Select</a></td>
-      <td><Link to={'/treatment/' + treatment.id}>{treatment.name}</Link></td>
+      <td><Link to={'/treatment/' + treatment.name}>{treatment.name}</Link></td>
       <td>{treatment.description}</td>
       <td>{treatment.author}</td>
+      <td>{treatment.unitCost}</td>
+      <td>{treatment.life}</td>
     </tr>
   );
 };

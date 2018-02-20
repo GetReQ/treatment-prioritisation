@@ -6,10 +6,11 @@ const TreatmentList = ({treatments}) => {
     <table className="table">
       <thead>
       <tr>
-        <th>&nbsp;</th>
         <th>Name</th>
         <th>Description</th>
         <th>Author</th>
+        <th>Unit Cost</th>
+        <th>Life</th>
       </tr>
       </thead>
       <tbody>

@@ -8,29 +8,36 @@ const treatments = [
     id: 1,
     name: 'treatment1',
     description: 'test treatment 1',
-    author: 'unknown'
+    author: 'unknown',
+    unitCost: 2,
+    life: 5
   },
   {
     id: 2,
     name: 'treatment2',
     description: 'test treatment 2',
-    author: 'unknown'
+    author: 'unknown',
+    unitCost: 4,
+    life: 7
   },
   {
     id: 3,
     name: 'treatment3',
     description: 'test treatment 3',
-    author: 'unknown'
+    author: 'unknown',
+    unitCost: 12,
+    life: 11
   }
 ];
 
 //This would be performed on the server in a real app. Just stubbing in.
-const generateId = (treatment) => {
-  return Math.random().toString(16).slice(2); //TODO: consider using static int id??
+function getMaxId() {
+  let l = Math.max.apply(Math, treatments => treatments.id) + 1;
+  debugger;
+  return l;
 };
 
 class TreatmentApi {
-
 
   static getAllTreatments() {
     return new Promise((resolve, reject) => {
@@ -57,7 +64,7 @@ class TreatmentApi {
           //Just simulating creation here.
           //The server would generate ids for new authors in a real app.
           //Cloning so copy returned is passed by value rather than by reference.
-          treatment.id = generateId(treatment);
+          treatment.id = getMaxId();
           treatments.push(treatment);
         }
 
