@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import treatmentApi from'../api/mockTreatmentApi';
+import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 /* Action Creators */
 export function loadTreatmentsSuccess(treatments) {
@@ -17,6 +18,7 @@ export function updateTreatmentSuccess(treatment) {
 /* Thunks */
 export function loadTreatments() {
   return function(dispatch) {
+    dispatch(beginAjaxCall());
     return treatmentApi.getAllTreatments().then(treatments => {
       dispatch(loadTreatmentsSuccess(treatments));
     }).catch(error => {
@@ -27,9 +29,11 @@ export function loadTreatments() {
 
 export function saveTreatment(treatment) {
   return function (dispatch, getState) {
+    dispatch(beginAjaxCall());
     return treatmentApi.saveTreatment(treatment).then(savedTreatment => {
       (treatment.id > 0) ? dispatch(updateTreatmentSuccess(savedTreatment)) : dispatch(createTreatmentSuccess(savedTreatment));
     }).catch(error => {
+      dispatch(ajaxCallError(error));
       throw(error);
     });
   };
