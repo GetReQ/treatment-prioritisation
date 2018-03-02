@@ -32,10 +32,8 @@ const treatments = [
 
 //This would be performed on the server in a real app. Just stubbing in.
 function getMaxId() {
-  let l = Math.max.apply(Math, treatments => treatments.id) + 1;
-  debugger;
-  return l;
-};
+  return Math.max.apply(Math, treatments.map(function(o) {return o.id;})) + 1;
+}
 
 class TreatmentApi {
 
@@ -57,7 +55,15 @@ class TreatmentApi {
           reject(`Name must be at least ${minTreatmentNameLength} characters.`);
         }
 
-        if (treatment.id) {
+        if (isNaN(parseFloat(treatment.unitCost)) || !isFinite(treatment.unitCost) || treatment.unitCost<= 0) {
+          reject('Unit cost must be a positive number');
+        }
+
+        if (treatment.life != parseInt(treatment.life) || !isFinite(treatment.life) || treatment.life <= 0) {
+          reject('Life must be a positive whole number');
+        }
+
+        if (treatment.id && treatment.id > 0) {
           const existingTreatmentIndex = treatments.findIndex(a => a.id == treatment.id);
           treatments.splice(existingTreatmentIndex, 1, treatment);
         } else {
@@ -67,7 +73,6 @@ class TreatmentApi {
           treatment.id = getMaxId();
           treatments.push(treatment);
         }
-
         resolve(treatment);
       }, delay);
     });
